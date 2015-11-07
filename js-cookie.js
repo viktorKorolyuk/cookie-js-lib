@@ -4,7 +4,7 @@ function createCookie(name, value){
 }
 function deleteCookie(name , value){
     
-    document.cookie = name + "=" + value;
+    document.cookie = name + "=" + value + " expires=Thu, 01 Jan 1970 00:00:00 UTC";
     
 }
 
