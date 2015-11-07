@@ -3,7 +3,7 @@ function createCookie(name, value){
     
 }
 function deleteCookie(name , value){
-    //not functioning
+    
     document.cookie = name + "=" + value;
     
 }
@@ -12,10 +12,10 @@ function getCookie(name){
     var cname = name + '=';
     console.log(cname);
     
-    var ca = document.cookie.split(";"); //divide into array
+    var ca = document.cookie.split(";"); 
     console.log("Array" + ca);
     
-    for(var i = 0; i<ca.length; i++){ //check the whole array
+    for(var i = 0; i<ca.length; i++){
         console.log("ca.length: " + ca.length);
         console.log("i: "+i);
         var c = ca[i];
@@ -30,13 +30,13 @@ function getCookie(name){
         console.log("Cname length: " + cname.length);
         console.log("C length: " + c.length);
         
-        //this one I need to think about more
+        
         
         
     }
     
     return ""; 
-    //what is the variable result?
+   
 }
 function testing(name){
     
