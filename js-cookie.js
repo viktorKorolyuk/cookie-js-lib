@@ -1,49 +1,48 @@
-function createCookie(name, value){
-    document.cookie = name + "=" + value;
-    
-}
-function deleteCookie(name , value){
-    
-    document.cookie = name + "=" + value + " expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    
-}
+/* cookie-js
+ * A simple library to manage JavaScript cookies.
+ *
+ * Contributors:
+ *  - Viktor Korolyuk
+ *    Original source code, repository, etc.
+ *  - Ethan McTague
+ *    Clean up, re-structure, fix/simplify getter method.
+ */
 
-function getCookie(name){
-    var cname = name + '=';
-    console.log(cname);
-    
-    var ca = document.cookie.split(";"); 
-    console.log("Array" + ca);
-    
-    for(var i = 0; i<ca.length; i++){
-        console.log("ca.length: " + ca.length);
-        console.log("i: "+i);
-        var c = ca[i];
-        console.log("c: " + c);
-        while (c.charAt(0)==' ') c = c.substring(1); 
-        console.log("c.charAt(0): "+c.charAt(0));
-        console.log("c.substring(1): "+c.substring(1));
-        
-        if (c.indexOf(cname) == 0) return c.substring(cname.length,c.length);
-        console.log("c.indexOf(cname): " + c.indexOf(cname));
-        console.log("c.substring(cname.length,c.length): "+ c.substring(cname.length,c.length));
-        console.log("Cname length: " + cname.length);
-        console.log("C length: " + c.length);
-        
-        
-        
-        
-    }
-    
-    return ""; 
-   
-}
-function testing(name){
-    
-    return "";
-}
-function editCookie(name, value){
-    console.log("EDITED COOKIE! NOM NOM NOM");
-    document.cookie = name + "=" + value;
+/* The global 'cookies' object will hold the cookies. */
+var cookies = {};
 
-}
+/* Create / set a cookie with the specified name and value. */
+cookies.set = function(name, value, expires) {
+  /* Expiry date string (if a Date() is passed.) */
+  var additional = "";
+
+  /* Expiry date string (if a new Date() is passed.) */
+  if (expires && expires instanceof Date)
+    additional += "; expires=" + expires;
+
+  /* Expiry date string from date string. */
+  else if (expires && typeof expires === "string")
+    additional += "; expires=" + new Date(expires);
+
+  /* Expiry date string (if a number is passed - n days into future. */
+  else if (expires && typeof expires === "number") {
+    var dayToExpire = new Date();
+    dayToExpire.setDate(dayToExpire.getDate() + expires);
+    additional += "; expires=";
+  }
+
+  /* Set the cookie. */
+  document.cookie = name + "=" + value + additional;
+};
+
+/* Delete a cookie with the specified name and value. */
+cookies.delete = function(name) {
+  /* We delete the cookie by setting an expiry date from the past. */
+  document.cookie = name + "=;expires=" + new Date(0);
+};
+
+/* Returns the text of the cookie with the desired name. */
+cookies.get = function (name) {
+  return document.cookie.replace(new RegExp("(?:(?:^|.*;\\s*)" + name +
+    "\\s*\\=\\s*([^;]*).*$)|^.*$", "g"), "$1"); 
+};
